@@ -56,7 +56,7 @@ Page.prototype.visit = function(params, callback) {
     }
   }
 
-  this.browser.url(targetUrl).call(callback);
+  return this.world.visitAbsoluteUrl(targetUrl, callback);
 };
 
 module.exports = Page;

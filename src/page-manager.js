@@ -20,6 +20,9 @@ function PageManager(world) {
 }
 
 PageManager.prototype.page = function(name) {
+  if (!name) {
+    name = 'any';
+  }
   if (!this.pages[name]) {
     throw new Error('page not found: ' + name);
   }
@@ -105,16 +108,13 @@ PageManager.prototype.defineElement = function(name, definition) {
 };
 
 PageManager.prototype.visit = function(targetUrl, callback){
+  if (typeof this.world.visitAbsoluteUrl !== 'function') {
+    throw new Error('world.visitAbsoluteUrl function not found');
+  }
   if (!/^https?\:\/\//i.test(targetUrl)) {
     targetUrl = url.resolve(this.world.config.baseUrl, targetUrl);
   }
-  this.world.browser.url(targetUrl).call(function(err){
-    if (err) {
-      callback(err);
-      return;
-    }
-    callback();
-  }.bind(this));
+  return this.world.visitAbsoluteUrl(targetUrl, callback);
 };
 
 module.exports = PageManager;

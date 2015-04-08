@@ -62,4 +62,13 @@ Element.prototype.setWorld = function(world) {
   });
 };
 
+Element.prototype.find = function() {
+  if (typeof this.world.findByCssSelector !== 'function') {
+    throw new Error('world.findByCssSelector function not found');
+  }
+  var args = Array.prototype.slice.apply(arguments);
+  args.unshift(this.s);
+  return this.world.findByCssSelector.apply(this.world, args);
+};
+
 module.exports = Element;
