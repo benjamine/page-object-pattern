@@ -30,14 +30,18 @@ Page.prototype.visit = function(params, callback) {
     var usedParams = {};
     targetUrl = targetUrl
       .replace(/\*.*$/, '')
-      .replace(/\:[a-z0-9]+[\?]?/g, function(match) {
-        var name = match.substr(1, match.length - 2 -
-          (match.substr(match.length - 1) === '?') ? 1 : 0);
+      .replace(/\:[a-z0-9]+[\?]?/ig, function(match) {
+        var name = match.substr(1, match.length - 1);
+        var suffix = '';
+        if (match.substr(match.length - 1) === '?') {
+          suffix = name.slice(-1);
+          name = name.slice(0, -1);
+        }
         if (params && params[name]) {
           usedParams[name] = true;
-          return params[name];
+          return params[name] + suffix;
         }
-        return '';
+        return suffix;
       })
       .replace(/\/[\/]+/g, '/');
 

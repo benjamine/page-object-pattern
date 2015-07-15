@@ -1,6 +1,6 @@
 {
   "name": "page-object-pattern",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "page object pattern implementation for javascript",
   "main": "./src/main",
   "scripts": {
