@@ -30,7 +30,7 @@ Page.prototype.visit = function(params, callback) {
     var usedParams = {};
     targetUrl = targetUrl
       .replace(/\*.*$/, '')
-      .replace(/\:[a-z0-9]+[\?]?/ig, function(match) {
+      .replace(/\:[a-z][a-z0-9]*[\?]?/ig, function(match) {
         var name = match.substr(1, match.length - 1);
         var suffix = '';
         if (match.substr(match.length - 1) === '?') {
@@ -43,7 +43,9 @@ Page.prototype.visit = function(params, callback) {
         }
         return suffix;
       })
-      .replace(/\/[\/]+/g, '/');
+      .replace(/([^:])\/[\/]+/g, function(match) {
+        return match[0] + '/';
+      });
 
     // additional query params
     Object.keys(params).forEach(function(name) {
